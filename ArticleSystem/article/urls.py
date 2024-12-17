@@ -2,7 +2,12 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.article_list, name='article_list'),
-    path('article/<int:article_id>/', views.article_detail, name='article_detail'),
-    path('comment/<int:comment_id>/like/', views.like_comment, name='like_comment'),
+    # 用户相关
+    path('', views.home_view, name='home'),  # 主页，包含登录/注册或欢迎页面
+    path('logout/', views.logout_view, name='logout'),  # 退出登录
+
+    # 文章相关
+    path('articles/', views.article_list, name='article_list'),  # 文章列表
+    path('article/<int:article_id>/', views.article_detail, name='article_detail'),  # 文章详情
+    path('article/<int:article_id>/comment/', views.like_comment, name='article_comment'),  # 文章评论
 ]

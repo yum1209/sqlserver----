@@ -6,7 +6,7 @@
   </head>
   <body>
     <h1>{{ article.title }}</h1>
-    <p>作者：{{ article.author.username }}</p>
+    <!-- <p>作者：{{ article.author.username }}</p> -->
     <p>发表时间：{{ article.created_date }}</p>
     <p>{{ article.content }}</p>
 
@@ -14,9 +14,9 @@
     <ul>
       {% for comment in comments %}
       <li>
-        <p>{{ comment.author.username }} 评论于 {{ comment.created_date }}</p>
+        <!-- <p>{{ comment.author.username }} 评论于 {{ comment.created_date }}</p> -->
         <p>{{ comment.content }}</p>
-        <a href="{% url 'like_comment' comment.id %}"
+        <a href="{% url 'article_comment' comment.id %}"
           >点赞 ({{ comment.likes.count }})</a
         >
       </li>

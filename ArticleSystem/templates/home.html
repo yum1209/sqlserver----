@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>主页</title>
+  </head>
+  <body>
+    {% if user.is_authenticated %}
+    <!-- 已登录用户的内容 -->
+    <h2>欢迎，{{ user.username }}！</h2>
+    <p>您已登录，可以访问主页内容。</p>
+    <p><a href="{% url 'article_list' %}">查看文章</a></p>
+    <form method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit">退出登录</button>
+    </form>
+    {% else %}
+    <!-- 未登录用户显示登录和注册表单 -->
+    <h2>登录</h2>
+    {% if messages %} {% for message in messages %}
+    <p style="color: red">{{ message }}</p>
+    {% endfor %} {% endif %}
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="login" value="1" />
+      <label for="login_username">用户名：</label>
+      <input type="text" name="login_username" required /><br />
+      <label for="login_password">密码：</label>
+      <input type="password" name="login_password" required /><br />
+      <button type="submit">登录</button>
+    </form>
+
+    <h2>注册</h2>
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="register" value="1" />
+      <label for="register_username">用户名：</label>
+      <input type="text" name="register_username" required /><br />
+      <label for="register_password1">密码：</label>
+      <input type="password" name="register_password1" required /><br />
+      <label for="register_password2">确认密码：</label>
+      <input type="password" name="register_password2" required /><br />
+      <button type="submit">注册</button>
+    </form>
+    {% endif %}
+  </body>
+</html>
