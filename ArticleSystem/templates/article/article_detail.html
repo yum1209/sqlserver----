@@ -2,33 +2,84 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ article.title }}</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background-color: #f4f4f9;
+      }
+      .container {
+        width: 90%;
+        max-width: 800px;
+        margin: 30px auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #333;
+      }
+      p {
+        line-height: 1.6;
+        color: #555;
+      }
+      .comment-section {
+        margin-top: 20px;
+      }
+      textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
+      input[type="submit"] {
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      input[type="submit"]:hover {
+        background-color: #2980b9;
+      }
+    </style>
   </head>
   <body>
-    <h1>{{ article.title }}</h1>
-    <!-- <p>作者：{{ article.author.username }}</p> -->
-    <p>发表时间：{{ article.created_date }}</p>
-    <p>{{ article.content }}</p>
+    <div class="container">
+      <h1>{{ article.title }}</h1>
+      <p>发表时间：{{ article.created_date }}</p>
+      <p>{{ article.content }}</p>
 
-    <h2>评论</h2>
-    <ul>
-      {% for comment in comments %}
-      <li>
-        <!-- <p>{{ comment.author.username }} 评论于 {{ comment.created_date }}</p> -->
-        <p>{{ comment.content }}</p>
-        <a href="{% url 'article_comment' comment.id %}"
-          >点赞 ({{ comment.likes.count }})</a
-        >
-      </li>
-      {% endfor %}
-    </ul>
+      <div class="comment-section">
+        <h2>评论</h2>
+        <ul>
+          {% for comment in comments %}
+          <li>
+            <p>{{ comment.content }}</p>
+            <a href="{% url 'article_comment' comment.id %}"
+              >点赞 ({{ comment.likes.count }})</a
+            >
+          </li>
+          {% endfor %}
+        </ul>
 
-    <h2>发表评论</h2>
-    <form method="post" action="">
-      {% csrf_token %}
-      <textarea name="content" rows="4" cols="50"></textarea>
-      <br />
-      <input type="submit" value="提交评论" />
-    </form>
+        <h2>发表评论</h2>
+        <form method="post" action="">
+          {% csrf_token %}
+          <textarea
+            name="content"
+            rows="4"
+            placeholder="写下您的评论..."
+          ></textarea>
+          <br />
+          <input type="submit" value="提交评论" />
+        </form>
+      </div>
+    </div>
   </body>
 </html>

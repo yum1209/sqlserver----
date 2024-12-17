@@ -53,7 +53,7 @@ def logout_view(request):
     return redirect('home')
 
 # 主页，需登录访问
-@login_required
+# @login_required
 def home(request):
     return render(request, 'home.html', {'user': request.user})
 
