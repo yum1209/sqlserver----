@@ -48,20 +48,20 @@ class Comment(models.Model):
         """判断是否是回复评论"""
         return self.parent is not None
 
-# # 点赞记录模型（可选）
-# class LikeRecord(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="点赞用户")
-#     article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True, blank=True, verbose_name="文章")
-#     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True, blank=True, verbose_name="评论")
-#     created_at = models.DateTimeField(default=timezone.now, verbose_name="点赞时间")
+# 点赞记录模型（可选）
+class LikeRecord(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="点赞用户")
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True, blank=True, verbose_name="文章")
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True, blank=True, verbose_name="评论")
+    created_at = models.DateTimeField(default=timezone.now, verbose_name="点赞时间")
 
-#     class Meta:
-#         verbose_name = "点赞记录"
-#         verbose_name_plural = "点赞记录"
-#         unique_together = [['user', 'article'], ['user', 'comment']]
+    class Meta:
+        verbose_name = "点赞记录"
+        verbose_name_plural = "点赞记录"
+        unique_together = [['user', 'article'], ['user', 'comment']]
 
-#     def __str__(self):
-#         if self.article:
-#             return f"{self.user.username} 点赞了文章 '{self.article.title}'"
-#         elif self.comment:
-#             return f"{self.user.username} 点赞了评论 '{self.comment.content[:20]}...'"
+    def __str__(self):
+        if self.article:
+            return f"{self.user.username} 点赞了文章 '{self.article.title}'"
+        elif self.comment:
+            return f"{self.user.username} 点赞了评论 '{self.comment.content[:20]}...'"

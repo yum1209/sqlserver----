@@ -5,8 +5,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .models import Article, Comment
-
+from .models import Article, Comment, LikeRecord
+from django.http import JsonResponse
 
 
 # home page
@@ -50,7 +50,7 @@ def home_view(request):
 @login_required
 def logout_view(request):
     logout(request)
-    return redirect('home')
+    return redirect('')
 
 # 主页，需登录访问
 # @login_required
@@ -74,8 +74,8 @@ def article_detail(request, article_id):
     return render(request, 'article/article_detail.html', {'article': article, 'comments': comments})
 
 # @login_required
-def like_comment(request, comment_id):
+def like_comment(request, article_id, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
     if request.user not in comment.likes.all():
         comment.likes.add(request.user)
-    return redirect('article_detail', article_id=comment.article.id)
+    return redirect('article_detail', article_id=article_id)

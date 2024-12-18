@@ -61,9 +61,7 @@
           {% for comment in comments %}
           <li>
             <p>{{ comment.content }}</p>
-            <a href="{% url 'article_comment' comment.id %}"
-              >点赞 ({{ comment.likes.count }})</a
-            >
+            <a href="{% url 'article_comment' article.id comment.id %}">点赞 ({{ comment.likes.count }})</a>
           </li>
           {% endfor %}
         </ul>

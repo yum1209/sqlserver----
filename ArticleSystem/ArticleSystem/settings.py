@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-sp1hj2feo1fq6y2^(klm4y+cf^*2h18j42stop1$)!5_=#cvs%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -74,13 +74,25 @@ WSGI_APPLICATION = 'ArticleSystem.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'articles-db',  # 你的数据库名
+        'CLIENT': {
+            'host': 'mongodb://root:jgsktwdk@dbconn.sealoshzh.site:46298/?directConnection=true',
+            'username': 'root',
+            'password': 'jgsktwdk',
+            'authSource': 'admin',  # 根据实际情况可能需要修改
+            'authMechanism': 'SCRAM-SHA-1',
+        }
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -100,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+LOGOUT_REDIRECT_URL = '/'
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 

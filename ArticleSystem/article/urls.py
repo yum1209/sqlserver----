@@ -9,5 +9,5 @@ urlpatterns = [
     # 文章相关
     path('articles/', views.article_list, name='article_list'),  # 文章列表
     path('article/<int:article_id>/', views.article_detail, name='article_detail'),  # 文章详情
-    path('article/<int:article_id>/comment/', views.like_comment, name='article_comment'),  # 文章评论
+    path('article/<int:article_id>/like_comment/<int:comment_id>/', views.like_comment, name='article_comment'), # 文章评论点赞
 ]
