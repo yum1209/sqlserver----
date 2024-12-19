@@ -52,20 +52,23 @@ def logout_view(request):
     logout(request)
     return redirect('')
 
-# 主页，需登录访问
-# @login_required
-def home(request):
-    return render(request, 'home.html', {'user': request.user})
 
-# @login_required
+@login_required
 def article_list(request):
-    articles = Article.objects.all()
-    return render(request, 'article/article_list.html', {'articles': articles})
+    query = request.GET.get('q', '')
+    if query:
+        articles = Article.objects.filter(title__icontains=query)
+        if not articles:
+            return render(request, 'article/article_list.html', {'articles': articles, 'no_results': True})
+    else:
+        articles = Article.objects.all()
+    return render(request, 'article/article_list.html', {'articles': articles, 'no_results': False})
 
-# @login_required
+@login_required
 def article_detail(request, article_id):
     article = get_object_or_404(Article, pk=article_id)
     comments = article.comments.all()
+    # print(comments) 
     if request.method == 'POST':
         comment_content = request.POST.get('content', '')
         if comment_content:
@@ -73,9 +76,59 @@ def article_detail(request, article_id):
             return redirect('article_detail', article_id=article_id)
     return render(request, 'article/article_detail.html', {'article': article, 'comments': comments})
 
-# @login_required
+@login_required
+def submit_article(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        if not title or not content:
+            messages.error(request, "标题和内容不能为空！")
+        else:
+            Article.objects.create(title=title, content=content, author=request.user)
+            messages.success(request, "文章提交成功！")
+            return redirect('article_list')
+    return render(request, 'article/submit_article.html')
+
+@login_required
+def manage_article_list(request):
+    # 查询当前用户的文章
+    user_articles = Article.objects.filter(author=request.user)
+    return render(request, 'article/manage_article_list.html', {'articles': user_articles})
+
+
+@login_required
+def edit_article(request, article_id):
+    article = get_object_or_404(Article, pk=article_id)
+
+    # 确保只有文章作者可以编辑
+    if article.author != request.user:
+        messages.error(request, "你没有权限修改此文章！")
+        return redirect('edit_article_list')
+
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        if not title or not content:
+            messages.error(request, "标题和内容不能为空！")
+        else:
+            article.title = title
+            article.content = content
+            article.save()
+            messages.success(request, "文章修改成功！")
+            return redirect('article_detail', article_id=article_id)
+
+    return render(request, 'article/edit_article.html', {'article': article})
+
+def delete_article(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    article.delete()
+    return redirect('article_list')  # Adjust this to redirect to the appropriate page
+
+@login_required
 def like_comment(request, article_id, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
     if request.user not in comment.likes.all():
         comment.likes.add(request.user)
+    else:
+        comment.likes.remove(request.user)
     return redirect('article_detail', article_id=article_id)

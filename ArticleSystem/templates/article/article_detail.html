@@ -47,22 +47,85 @@
       input[type="submit"]:hover {
         background-color: #2980b9;
       }
+      .back-button {
+        display: inline-block;
+        background-color: lightblue;
+        color: #fff;
+        padding: 8px 15px;
+        border-radius: 4px;
+        text-decoration: none;
+        margin-bottom: 20px;
+      }
+      .back-button:hover {
+        background-color: lightpink;
+      }
+      .comment-container {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 15px;
+        padding: 15px;
+      }
+
+      .comment-item {
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+        list-style-type: none;
+      }
+
+      .comment-content {
+        font-size: 1.1em;
+        color: #333;
+        margin-top: 5px;
+      }
+
+      .comment-time {
+        font-size: 0.9em;
+        color: #888;
+        margin-top: 5px;
+      }
+
+      .like-link {
+        display: inline-block;
+        margin-top: 10px;
+        font-size: 0.9em;
+        color: #3498db;
+        text-decoration: none;
+      }
+
+      .like-link:hover {
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <h1>{{ article.title }}</h1>
-      <p>发表时间：{{ article.created_date }}</p>
+      <p>作者: {{article.author}}</p>
+      <p>发表时间：{{ article.created_at|date:"Y-m-d H:i:s"}}</p>
       <p>{{ article.content }}</p>
 
+      <!-- 添加返回按钮 -->
+      <a href="{% url 'article_list' %}" class="back-button">返回文章列表</a>
+      <hr />
       <div class="comment-section">
         <h2>评论</h2>
         <ul>
           {% for comment in comments %}
-          <li>
-            <p>{{ comment.content }}</p>
-            <a href="{% url 'article_comment' article.id comment.id %}">点赞 ({{ comment.likes.count }})</a>
-          </li>
+          <div class="comment-container">
+            <li class="comment-item">
+              <p><strong>{{ comment.author.username }}</strong>:</p>
+              <p class="comment-content">{{ comment.content }}</p>
+              <p class="comment-time">
+                评论时间：{{ comment.created_at|date:"Y年m月d日 H:i" }}
+              </p>
+              <a
+                href="{% url 'article_comment' article.id comment.id %}"
+                class="like-link"
+                >点赞 ({{ comment.likes.count }})</a
+              >
+            </li>
+          </div>
           {% endfor %}
         </ul>
 

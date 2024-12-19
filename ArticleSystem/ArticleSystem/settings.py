@@ -74,25 +74,25 @@ WSGI_APPLICATION = 'ArticleSystem.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'articles-db',  # 你的数据库名
-        'CLIENT': {
-            'host': 'mongodb://root:jgsktwdk@dbconn.sealoshzh.site:46298/?directConnection=true',
-            'username': 'root',
-            'password': 'jgsktwdk',
-            'authSource': 'admin',  # 根据实际情况可能需要修改
-            'authMechanism': 'SCRAM-SHA-1',
-        }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'NAME': 'articles-db',  # 你的数据库名
+#         'CLIENT': {
+#             'host': 'mongodb://root:jgsktwdk@dbconn.sealoshzh.site:46298/?directConnection=true',
+#             'username': 'root',
+#             'password': 'jgsktwdk',
+#             'authSource': 'admin',  # 根据实际情况可能需要修改
+#             'authMechanism': 'SCRAM-SHA-1',
+#         }
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

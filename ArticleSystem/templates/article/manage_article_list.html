@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>我的文章</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        padding: 20px;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        background: #fafafa;
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .button-group {
+        display: flex;
+        gap: 10px;
+      }
+      a {
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .edit-button {
+        background-color: #f39c12;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        text-decoration: none;
+      }
+      .edit-button:hover {
+        background-color: #e67e22;
+      }
+      .delete-button {
+        background-color: #e74c3c;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        text-decoration: none;
+      }
+      .delete-button:hover {
+        background-color: #c0392b;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>我的文章</h1>
+      <ul>
+        {% for article in articles %}
+        <li>
+          <span>{{ article.title }}</span>
+          <div class="button-group">
+            <a href="{% url 'edit_article' article.id %}" class="edit-button"
+              >修改</a
+            >
+            <a
+              href="{% url 'delete_article' article.id %}"
+              class="delete-button"
+              onclick="return confirm('确定要删除这篇文章吗？');"
+              >删除</a
+            >
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      <a href="{% url 'article_list' %}" class="edit-button">返回文章列表</a>
+    </div>
+  </body>
+</html>

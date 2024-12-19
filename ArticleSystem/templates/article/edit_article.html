@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>修改文章</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        padding: 20px;
+      }
+      .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      input,
+      textarea {
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      button {
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #2980b9;
+      }
+      .back-button {
+        margin-top: 15px;
+        display: inline-block;
+        text-decoration: none;
+        color: white;
+        background-color: lightblue;
+        padding: 8px 15px;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <h1>修改文章</h1>
+      <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="title" value="{{ article.title }}" required />
+        <textarea name="content" rows="10" required>
+{{ article.content }}</textarea
+        >
+        <button type="submit">保存修改</button>
+      </form>
+      <a href="{% url 'manage_article_list' %}" class="back-button">我的文章</a>
+    </div>
+  </body>
+</html>
