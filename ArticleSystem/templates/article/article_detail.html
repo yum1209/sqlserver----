@@ -103,7 +103,8 @@
       <h1>{{ article.title }}</h1>
       <p>作者: {{article.author}}</p>
       <p>发表时间：{{ article.created_at|date:"Y-m-d H:i:s"}}</p>
-      <p>{{ article.content }}</p>
+      <p>{{ article.content|linebreaksbr|safe }}</p>
+
 
       <!-- 添加返回按钮 -->
       <a href="{% url 'article_list' %}" class="back-button">返回文章列表</a>

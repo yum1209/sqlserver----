@@ -119,6 +119,7 @@ def edit_article(request, article_id):
 
     return render(request, 'article/edit_article.html', {'article': article})
 
+@login_required
 def delete_article(request, article_id):
     article = get_object_or_404(Article, id=article_id)
     article.delete()
